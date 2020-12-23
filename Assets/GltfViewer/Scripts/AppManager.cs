@@ -7,6 +7,8 @@ namespace GltfViewer.Scripts
 {
     public class AppManager : MonoBehaviour
     {
+        private bool allowManipulation = true;
+        
 #pragma warning disable 0649
         [SerializeField] private GameObject modelPrefab;
         [SerializeField] private GameObject modelSpawner;
@@ -46,6 +48,19 @@ namespace GltfViewer.Scripts
             
             //unload created materials
             Resources.UnloadUnusedAssets();
+        }
+        
+        public void AdjustModels()
+        {
+            allowManipulation = !allowManipulation;
+            
+            if (models.Count > 0)
+            {
+                foreach (var modelController in models)
+                {
+                    modelController.AdjustModel(allowManipulation);
+                }
+            }
         }
     }
 }
